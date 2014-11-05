@@ -21,3 +21,4 @@ D:\WebCrawler\nwebcrawler-76924\bin\en-US\NWebCrawlerLib.resources.dll
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\zh-CN\NWebCrawlerLib.resources.dll
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\en-US\NWebCrawlerLib.resources.dll
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.pdb
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.csprojResolveAssemblyReference.cache

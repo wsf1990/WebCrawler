@@ -73,8 +73,8 @@
     <Compile Include="Common\CircularLinkedList.cs" />
     <Compile Include="Common\DomainUrlBucket.cs" />
     <Compile Include="Common\FileSystemUtility.cs.cs" />
-    <Compile Include="Common\NWebRequest.cs" />
-    <Compile Include="Common\NWebResponse.cs" />
+    <Compile Include="Connect\NWebRequest.cs" />
+    <Compile Include="Connect\NWebResponse.cs" />
     <Compile Include="Common\SQLiteUtility.cs" />
     <Compile Include="Crawler.cs" />
     <Compile Include="Enum\CrawlerStatusChangedEventType.cs" />
