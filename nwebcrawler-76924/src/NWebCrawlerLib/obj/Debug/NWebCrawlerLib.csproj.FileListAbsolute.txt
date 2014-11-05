@@ -1,0 +1,12 @@
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\bin\NWebCrawlerLib.dll
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\bin\NWebCrawlerLib.pdb
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\bin\zh-CN\NWebCrawlerLib.resources.dll
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\bin\en-US\NWebCrawlerLib.resources.dll
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.csprojResolveAssemblyReference.cache
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.Properties.Resource.zh-CN.resources
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.Properties.Resource.en-US.resources
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.csproj.GenerateResource.Cache
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\zh-CN\NWebCrawlerLib.resources.dll
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\en-US\NWebCrawlerLib.resources.dll
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.dll
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.pdb

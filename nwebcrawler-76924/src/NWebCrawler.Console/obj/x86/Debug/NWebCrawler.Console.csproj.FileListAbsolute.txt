@@ -1,0 +1,6 @@
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\bin\NWebCrawler.Console.exe.config
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\bin\NWebCrawler.Console.exe
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\bin\NWebCrawler.Console.pdb
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler.Console\obj\x86\Debug\NWebCrawler.Console.csprojResolveAssemblyReference.cache
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler.Console\obj\x86\Debug\NWebCrawler.Console.exe
+D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler.Console\obj\x86\Debug\NWebCrawler.Console.pdb
