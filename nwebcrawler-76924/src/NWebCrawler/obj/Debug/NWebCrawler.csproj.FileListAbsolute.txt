@@ -12,3 +12,6 @@ D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCra
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.g.resources
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.exe
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.pdb
+D:\WebCrawler\nwebcrawler-76924\bin\NWebCrawler.exe.config
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.exe
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.pdb
