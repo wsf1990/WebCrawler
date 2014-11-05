@@ -25,14 +25,28 @@ namespace NWebCrawlerLib
         /// 将委托定义为事件
         /// </summary>
         public event CrawlerStatusChangedEventHandler StatusChanged;
-
+        /// <summary>
+        /// 工作线程
+        /// </summary>
         private Thread m_thread;
+        /// <summary>
+        /// 线程阻止
+        /// </summary>
         private ManualResetEvent m_suspendEvent = new ManualResetEvent(true);
+        /// <summary>
+        /// 工作状态
+        /// </summary>
         private CrawlerStatusType m_statusType;
+        /// <summary>
+        /// URL
+        /// </summary>
         private string m_url;
+        /// <summary>
+        /// 爬虫的下载者
+        /// </summary>
         private Downloader m_downloader;
         /// <summary>
-        /// 脏
+        /// 记录工作状态 URL 发生变化
         /// </summary>
         private bool m_dirty; 
         #endregion
@@ -71,12 +85,10 @@ namespace NWebCrawlerLib
 
             }
         }
-
-        public string MimeType
-        {
-            get;
-            set;
-        }
+        /// <summary>
+        /// 响应头
+        /// </summary>
+        public string MimeType { get; set; }
 
         public string Url
         {
