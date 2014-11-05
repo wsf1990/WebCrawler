@@ -27,26 +27,19 @@ namespace NWebCrawlerLib
         /// </summary>
         public event DownloaderStatusChangedEventHandler StatusChanged;
 
-
-
-
         public long TotalSize { get; set; }
         public object TotalSizelock = new object();
 
         public long Errors = 0L;
 
-
-
         #endregion
 
         #region Properties
-        // foamliu, 2009/12/27.
         // 尚未访问的URL列表, 使用先进先出 （First-in-first-out, FIFO) 的队列， 
         // 对应的爬虫就是宽度优先爬虫 (Breadth-first crawler).
-        //public Queue<string> UrlsQueueFrontier = /*Queue.Synchronized(*/new Queue<string>();
         private IQueueManager m_queue;
         /// <summary>
-        /// 存放URl的队列
+        /// 存放URL的队列
         /// </summary>
         public IQueueManager UrlsQueueFrontier
         {
@@ -124,6 +117,9 @@ namespace NWebCrawlerLib
         }
 
         private bool m_dirty;
+        /// <summary>
+        /// 记录变化
+        /// </summary>
         public bool Dirty
         {
             get { return m_dirty; }
@@ -169,7 +165,7 @@ namespace NWebCrawlerLib
             for (int i = 0; i < MemCache.ThreadCount; i++)
             {
                 CrawlerThread crawler = new CrawlerThread(this);
-                crawler.StatusChanged += new CrawlerStatusChangedEventHandler(CrawlerStatusChanged);
+                crawler.StatusChanged += CrawlerStatusChanged;
                 crawler.Start();
 
                 m_crawlerThreads.Add(crawler);
@@ -218,12 +214,19 @@ namespace NWebCrawlerLib
                 crawler.Abort();
             }
         }
-
+        /// <summary>
+        /// 状体变化时 m_dirty 置为true
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CrawlerStatusChanged(object sender, CrawlerStatusChangedEventArgs e)
         {
             this.m_dirty = true;
         }
-
+        /// <summary>
+        /// 获取下载速度
+        /// </summary>
+        /// <returns></returns>
         public double GetDownloadSpeed()
         {
             long totalSize = 0;
