@@ -7,3 +7,12 @@ D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler.UnitTest\bin\Debu
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler.UnitTest\obj\Debug\NWebCrawler.UnitTest.csprojResolveAssemblyReference.cache
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler.UnitTest\obj\Debug\NWebCrawler.UnitTest.dll
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawler.UnitTest\obj\Debug\NWebCrawler.UnitTest.pdb
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\bin\Debug\NWebCrawler.UnitTest.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\bin\Debug\NWebCrawler.UnitTest.pdb
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\bin\Debug\NWebCrawlerLib.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\bin\Debug\NWebCrawlerLib.pdb
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\bin\Debug\en-US\NWebCrawlerLib.resources.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\bin\Debug\zh-CN\NWebCrawlerLib.resources.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\obj\Debug\NWebCrawler.UnitTest.csprojResolveAssemblyReference.cache
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\obj\Debug\NWebCrawler.UnitTest.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler.UnitTest\obj\Debug\NWebCrawler.UnitTest.pdb

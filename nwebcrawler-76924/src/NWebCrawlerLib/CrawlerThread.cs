@@ -37,10 +37,7 @@ namespace NWebCrawlerLib
         /// 工作状态
         /// </summary>
         private CrawlerStatusType m_statusType;
-        /// <summary>
-        /// URL
-        /// </summary>
-        private string m_url;
+        
         /// <summary>
         /// 爬虫的下载者
         /// </summary>
@@ -90,6 +87,11 @@ namespace NWebCrawlerLib
         /// </summary>
         public string MimeType { get; set; }
 
+        /// <summary>
+        /// URL
+        /// </summary>
+        private string m_url;
+
         public string Url
         {
             get
@@ -112,7 +114,7 @@ namespace NWebCrawlerLib
 
         public CrawlerThread(Downloader d)
         {
-            m_thread = new Thread(CrawlerThread.DoWork);
+            m_thread = new Thread(DoWork);
             m_name = m_thread.ManagedThreadId.ToString();
             this.m_downloader = d;
             this.m_dirty = false;
@@ -123,7 +125,7 @@ namespace NWebCrawlerLib
         #region method
         public void Start()
         {
-            m_thread.Start(this);
+            m_thread.Start();
         }
 
         public void Abort()
@@ -151,63 +153,56 @@ namespace NWebCrawlerLib
         #endregion
 
         #region static method
-        private static void DoWork(object data)
+        private void DoWork()
         {
-            CrawlerThread crawler = (CrawlerThread)data;
-            Downloader downloader = crawler.m_downloader;
-            IQueueManager queue = downloader.UrlsQueueFrontier;
-
             while (true)
             {
                 //终止当前线程
-                crawler.m_suspendEvent.WaitOne(Timeout.Infinite);
+                m_suspendEvent.WaitOne(Timeout.Infinite);
 
-                if (queue.Count > 0)
+                if (Crawler.UrlsQueueFrontier.Count > 0)
                 {
                     try
                     {
                         // 从队列中获取URL
-                        string url = (string)queue.Dequeue();
+                        Url = (string)Crawler.UrlsQueueFrontier.Dequeue();
 
                         // 获取页面
-                        Fetch(crawler, url);
+                        Fetch();
                         // TODO: 检测是否完成
                         //if (false) break;
                     }
                     catch (InvalidOperationException ex)
                     {
-                        SleepWhenQueueIsEmpty(crawler);
+                        SleepWhenQueueIsEmpty();
                     }
                 }
                 else
                 {
-                    SleepWhenQueueIsEmpty(crawler);
+                    SleepWhenQueueIsEmpty();
                 }
             }
         }
 
         /// <summary>
-        /// foamliu, 2009/12/27.
         /// 这个方法主要做三件事:
         /// 1.获取页面.
         /// 2.提取URL并加入队列.
         /// 3.保存页面(到网页库).
         /// </summary>
-        /// <param name="url"></param>
-        private static void Fetch(CrawlerThread crawler, string url)
+        private void Fetch()
         {
             try
             {
                 // 获取页面.
-                crawler.Url = url;
-                crawler.Status = CrawlerStatusType.Fetch;
-                crawler.Flush();
+                Status = CrawlerStatusType.Fetch;
+                Flush();
 
-                NWebRequest req = new NWebRequest(new Uri(url), true);
+                NWebRequest req = new NWebRequest(new Uri(Url), true);
                 // 设置超时以避免耗费不必要的时间等待响应缓慢的服务器或尺寸过大的网页.
                 req.Timeout = MemCache.ConnectionTimeoutMs;
                 NWebResponse response = req.GetResponse();
-                string contentType = crawler.MimeType = response.ContentType;
+                string contentType = MimeType = response.ContentType;
 
                 if (contentType != "text/html" && !MemCache.AllowAllMimeTypes && !MemCache.AllowedFileTypes.Contains(contentType))
                     return;
@@ -216,11 +211,11 @@ namespace NWebCrawlerLib
                 response.Close();
 
                 // 保存页面(到网页库).
-                crawler.Status = CrawlerStatusType.Save;
-                crawler.Flush();
+                Status = CrawlerStatusType.Save;
+                Flush();
 
                 string html = Encoding.UTF8.GetString(buffer);
-                string baseUri = Utility.GetBaseUri(url);
+                string baseUri = Utility.GetBaseUri(Url);
                 string[] links = Parser.ExtractLinks(baseUri, html);//解析网页中链接
 
                 if (Settings.DataStoreMode == "1")
@@ -229,41 +224,40 @@ namespace NWebCrawlerLib
                 }
                 else
                 {
-                    FileSystemUtility.StoreWebFile(url, buffer);
+                    FileSystemUtility.StoreWebFile(Url, buffer);
                 }
 
-                crawler.m_downloader.CrawledUrlSet.Add(url);
-                crawler.m_downloader.CrawleHistroy.Add(new CrawlHistroyEntry() { Timestamp = DateTime.UtcNow, Url = url, Size = response.ContentLength });
-                lock (crawler.m_downloader.TotalSizelock)
+                Crawler.CrawleHistroy.Add(new CrawlHistroyEntry() { Timestamp = DateTime.UtcNow, Url = Url, Size = response.ContentLength });
+                lock (m_downloader.TotalSizelock)
                 {
-                    crawler.m_downloader.TotalSize += response.ContentLength;
+                    m_downloader.TotalSize += response.ContentLength;
                 }
 
                 // 提取URL并加入队列.
-                IQueueManager queue = crawler.m_downloader.UrlsQueueFrontier;
-
-                if (contentType.ToLower() == "text/html" && queue.Count < 1000)
+                if (contentType.ToLower() == "text/html" && Crawler.UrlsQueueFrontier.Count < 1000)
                 {
-                    crawler.Status = CrawlerStatusType.Parse;
-                    crawler.Flush();
+                    Status = CrawlerStatusType.Parse;
+                    Flush();
 
                     foreach (string link in links)
                     {
                         // 避免爬虫陷阱
-                        if (link.Length > 256) continue;
+                        if (link.Length > 256) 
+                            continue;
                         // 避免出现环
-                        if (crawler.m_downloader.CrawledUrlSet.Contains(link)) continue;
+                        if (Crawler.IsUrlContain(link)) 
+                            continue;
                         // 加入队列
-                        queue.Enqueue(link);
+                        Crawler.UrlsQueueFrontier.Enqueue(link);
                     }
                 }
 
-                Console.WriteLine("[{1}] Url: {0}", crawler.Url, crawler.m_downloader.CrawleHistroy.Count);
+                Console.WriteLine("[{1}] Url: {0}", Url, Crawler.CrawleHistroy.Count);
 
-                crawler.Url = string.Empty;
-                crawler.Status = CrawlerStatusType.Idle;
-                crawler.MimeType = string.Empty;
-                crawler.Flush();
+                Url = string.Empty;
+                Status = CrawlerStatusType.Idle;
+                MimeType = string.Empty;
+                Flush();
 
             }
             catch (IOException ioEx)
@@ -277,7 +271,7 @@ namespace NWebCrawlerLib
                         if (socketEx.NativeErrorCode == 10054)
                         {
                             // 远程主机强迫关闭了一个现有的连接。
-                            //Logger.Error(ioEx.Message);
+                            // Logger.Error(ioEx.Message);
                         }
                     }
                     else
@@ -309,8 +303,6 @@ namespace NWebCrawlerLib
             {
                 Logger.Error(ex.Message);
             }
-
-
         }
 
         /// <summary>
@@ -335,12 +327,11 @@ namespace NWebCrawlerLib
         /// <summary>
         /// 为避免挤占CPU, 队列为空时睡觉. 
         /// </summary>
-        /// <param name="crawler"></param>
-        private static void SleepWhenQueueIsEmpty(CrawlerThread crawler)
+        private void SleepWhenQueueIsEmpty()
         {
-            crawler.Status = CrawlerStatusType.Idle;
-            crawler.Url = string.Empty;
-            crawler.Flush();
+            Status = CrawlerStatusType.Idle;
+            Url = string.Empty;
+            Flush();
 
             Thread.Sleep(MemCache.ThreadSleepTimeWhenQueueIsEmptyMs);
         } 

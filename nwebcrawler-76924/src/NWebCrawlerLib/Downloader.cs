@@ -35,35 +35,6 @@ namespace NWebCrawlerLib
         #endregion
 
         #region Properties
-        // 尚未访问的URL列表, 使用先进先出 （First-in-first-out, FIFO) 的队列， 
-        // 对应的爬虫就是宽度优先爬虫 (Breadth-first crawler).
-        private IQueueManager m_queue;
-        /// <summary>
-        /// 存放URL的队列
-        /// </summary>
-        public IQueueManager UrlsQueueFrontier
-        {
-            get
-            {
-                return m_queue;
-            }
-            set
-            {
-                m_queue = value;
-            }
-        }
-
-        private Collection<CrawlerThread> m_crawlerThreads;
-        /// <summary>
-        /// 爬虫线程集合
-        /// </summary>
-        public IEnumerable<CrawlerThread> Crawlers
-        {
-            get
-            {
-                return m_crawlerThreads;
-            }
-        }
 
         private DownloaderStatusType m_status;
         /// <summary>
@@ -85,37 +56,6 @@ namespace NWebCrawlerLib
             }
         }
 
-        /// 为了避免重复下载或陷入爬虫陷阱， 只有未被访问的URL才会被加入到队列中去.
-        /// 这就需要一个爬取历史这样的数据结构来维护已访问过的URL.    
-        public HashSet<string> m_urlSet;
-        public HashSet<string> CrawledUrlSet
-        {
-            get
-            {
-                return m_urlSet;
-            }
-            set
-            {
-                m_urlSet = value;
-            }
-        }
-
-        public IList<CrawlHistroyEntry> m_history;
-        /// <summary>
-        /// 爬取历史是包含有时间戳的URL列表.
-        /// </summary>
-        public IList<CrawlHistroyEntry> CrawleHistroy
-        {
-            get
-            {
-                return m_history;
-            }
-            set
-            {
-                m_history = value;
-            }
-        }
-
         private bool m_dirty;
         /// <summary>
         /// 记录变化
@@ -132,9 +72,8 @@ namespace NWebCrawlerLib
         public Downloader()
         {
             m_status = DownloaderStatusType.NotStarted;
-            m_queue = new RoundRobinQueueManager();
-            m_urlSet = new HashSet<string>();
-            m_history = new List<CrawlHistroyEntry>();
+            Crawler.UrlsQueueFrontier = new RoundRobinQueueManager();
+            Crawler.CrawleHistroy = new List<CrawlHistroyEntry>();
 
             m_dirty = false;
         }
@@ -147,10 +86,10 @@ namespace NWebCrawlerLib
         /// </param>
         public void InitSeeds(string[] seeds)
         {
-            UrlsQueueFrontier.Clear();
+            Crawler.UrlsQueueFrontier.Clear();
             // 使用种子URL进行队列初始化
             foreach (string s in seeds)
-                UrlsQueueFrontier.Enqueue(s);
+                Crawler.UrlsQueueFrontier.Enqueue(s);
         }
         /// <summary>
         /// 启动下载
@@ -158,9 +97,9 @@ namespace NWebCrawlerLib
         public void Start()
         {
             // 如果已经启动则退出
-            if (null != m_crawlerThreads) 
+            if (null != Crawler.CrawlerThreads) 
                 return;
-            m_crawlerThreads = new Collection<CrawlerThread>();
+            Crawler.CrawlerThreads = new Collection<CrawlerThread>();
 
             for (int i = 0; i < MemCache.ThreadCount; i++)
             {
@@ -168,7 +107,7 @@ namespace NWebCrawlerLib
                 crawler.StatusChanged += CrawlerStatusChanged;
                 crawler.Start();
 
-                m_crawlerThreads.Add(crawler);
+                Crawler.CrawlerThreads.Add(crawler);
             } 
             this.Status = DownloaderStatusType.Running;
         }
@@ -177,10 +116,10 @@ namespace NWebCrawlerLib
         /// </summary>
         public void Suspend()
         {
-            if (null == m_crawlerThreads) 
+            if (null == Crawler.CrawlerThreads) 
                 return;
 
-            foreach (CrawlerThread crawler in m_crawlerThreads)
+            foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
             {
                 crawler.Suspend();
             }
@@ -193,9 +132,9 @@ namespace NWebCrawlerLib
         /// </summary>
         public void Resume()
         {
-            if (null == m_crawlerThreads) return;
+            if (null == Crawler.CrawlerThreads) return;
 
-            foreach (CrawlerThread crawler in m_crawlerThreads)
+            foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
             {
                 crawler.Resume();
             }
@@ -207,9 +146,9 @@ namespace NWebCrawlerLib
         /// </summary>
         public void Abort()
         {
-            if (null == m_crawlerThreads) return;
+            if (null == Crawler.CrawlerThreads) return;
 
-            foreach (CrawlerThread crawler in m_crawlerThreads)
+            foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
             {
                 crawler.Abort();
             }
@@ -232,11 +171,11 @@ namespace NWebCrawlerLib
             long totalSize = 0;
             DateTime now = DateTime.UtcNow;
             int window = 15; // seconds
-            lock (CrawleHistroy)
+            lock (Crawler.CrawleHistroy)
             {
-                for (int i = CrawleHistroy.Count - 1; i >= 0; i--)
+                for (int i = Crawler.CrawleHistroy.Count - 1; i >= 0; i--)
                 {
-                    CrawlHistroyEntry entry = CrawleHistroy[i];
+                    CrawlHistroyEntry entry = Crawler.CrawleHistroy[i];
                     if ((now - entry.Timestamp) <= TimeSpan.FromSeconds(window))
                         totalSize += entry.Size;
                     else
@@ -252,19 +191,14 @@ namespace NWebCrawlerLib
         {
             if (File.Exists(fileName))
                 File.Delete(fileName);
-
             using (StreamWriter writer = new StreamWriter(new FileStream(fileName, FileMode.CreateNew)))
             {
-                while (UrlsQueueFrontier.Count > 0)
+                while (Crawler.UrlsQueueFrontier.Count > 0)
                 {
-                    string url = UrlsQueueFrontier.Dequeue();
+                    string url = Crawler.UrlsQueueFrontier.Dequeue();
                     writer.WriteLine(url);
                 }
             }
         }
-
-
-
-
     }
 }

@@ -10,3 +10,14 @@ D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\zh-C
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\en-US\NWebCrawlerLib.resources.dll
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.dll
 D:\搜索引擎\网络爬虫\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.pdb
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.Properties.Resource.zh-CN.resources
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.Properties.Resource.en-US.resources
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.csproj.GenerateResource.Cache
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.dll
+D:\WebCrawler\nwebcrawler-76924\bin\NWebCrawlerLib.dll
+D:\WebCrawler\nwebcrawler-76924\bin\NWebCrawlerLib.pdb
+D:\WebCrawler\nwebcrawler-76924\bin\zh-CN\NWebCrawlerLib.resources.dll
+D:\WebCrawler\nwebcrawler-76924\bin\en-US\NWebCrawlerLib.resources.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\zh-CN\NWebCrawlerLib.resources.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\en-US\NWebCrawlerLib.resources.dll
+D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.pdb

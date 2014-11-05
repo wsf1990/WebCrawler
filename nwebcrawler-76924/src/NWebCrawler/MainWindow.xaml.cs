@@ -255,7 +255,7 @@ namespace NWebCrawler
 
         private void UpdateDataGrid()
         {
-            if (null == m_downloader || null == m_downloader.Crawlers) 
+            if (null == m_downloader || null == Crawler.CrawlerThreads) 
                 return;
 
             Application.Current.Dispatcher.Invoke(
@@ -272,7 +272,7 @@ namespace NWebCrawler
                         File.WriteAllText("err.log", ex.ToString());
                     }
                 }),
-                m_downloader.Crawlers);
+                Crawler.CrawlerThreads);
         }
 
         private void UpdateStatusStrip()
@@ -294,11 +294,11 @@ namespace NWebCrawler
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<string>((v) => this.statusBarPanelURLs.Text = v),
-                string.Format("URLs: {0}", m_downloader.UrlsQueueFrontier.Count.ToString()));
+                string.Format("URLs: {0}", Crawler.UrlsQueueFrontier.Count.ToString()));
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<string>((v) => this.statusBarPanelFiles.Text = v),
-                string.Format("Files: {0}", m_downloader.CrawleHistroy.Count.ToString()));
+                string.Format("Files: {0}", Crawler.CrawleHistroy.Count.ToString()));
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<string>((v) => this.statusBarPanelSpeed.Text = v),

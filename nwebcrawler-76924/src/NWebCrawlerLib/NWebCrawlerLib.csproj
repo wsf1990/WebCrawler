@@ -76,6 +76,7 @@
     <Compile Include="Common\NWebRequest.cs" />
     <Compile Include="Common\NWebResponse.cs" />
     <Compile Include="Common\SQLiteUtility.cs" />
+    <Compile Include="Crawler.cs" />
     <Compile Include="Enum\CrawlerStatusChangedEventType.cs" />
     <Compile Include="Enum\CrawlerStatusType.cs" />
     <Compile Include="Enum\DownloaderEventType.cs" />
@@ -87,7 +88,7 @@
     <Compile Include="Event\NewLogEventArgs.cs" />
     <Compile Include="Interface\IDownloader.cs" />
     <Compile Include="Interface\IQueueManager.cs" />
-    <Compile Include="MemCache.cs" />
+    <Compile Include="Set\MemCache.cs" />
     <Compile Include="Common\PriorityQueue.cs" />
     <Compile Include="CrawlHistroyEntry.cs" />
     <Compile Include="Downloader.cs" />
@@ -96,11 +97,11 @@
     <Compile Include="EventStream.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceCulture.cs" />
+    <Compile Include="Common\ResourceCulture.cs" />
     <Compile Include="Common\RoundRobinQueueManager.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Set\Settings.cs" />
     <Compile Include="Common\UrlQueueManager.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="Common\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
