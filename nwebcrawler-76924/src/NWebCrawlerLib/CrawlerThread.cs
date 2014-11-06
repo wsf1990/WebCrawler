@@ -260,6 +260,7 @@ namespace NWebCrawlerLib
                 Flush();
 
             }
+            #region IOException
             catch (IOException ioEx)
             {
                 if (ioEx.InnerException != null)
@@ -292,7 +293,8 @@ namespace NWebCrawlerLib
                         }
                     }
                 }
-            }
+            } 
+            #endregion
             catch (NotSupportedException /*nsEx*/)
             {
                 // 无法识别该 URI 前缀。
