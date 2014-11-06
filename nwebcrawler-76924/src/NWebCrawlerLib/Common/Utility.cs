@@ -110,6 +110,7 @@ namespace NWebCrawlerLib
         }
         /// <summary>
         /// 获取基本uri?
+        /// HOST
         /// </summary>
         /// <param name="strUri"></param>
         /// <returns></returns>

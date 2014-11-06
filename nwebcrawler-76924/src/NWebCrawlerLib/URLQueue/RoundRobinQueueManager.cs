@@ -15,10 +15,12 @@ namespace NWebCrawlerLib.Common
     {
         /// <summary>
         /// url作为键值，LinkedListNode作为值
+        /// 为每个host创建一个键值对
+        /// 值为一个LinkedListNode<DomainUrlBucket>其中DomainUrlBucket的队列里存储了本host下的所有链接
         /// </summary>
         private Dictionary<string, LinkedListNode<DomainUrlBucket>> m_Hashtable = new Dictionary<string, LinkedListNode<DomainUrlBucket>>();
         /// <summary>
-        /// 循环列表
+        /// 存储了上述键值对中所有值的循环列表
         /// </summary>
         private LinkedList<DomainUrlBucket> m_CircularLinkedList = new LinkedList<DomainUrlBucket>();
         /// <summary>
@@ -115,14 +117,12 @@ namespace NWebCrawlerLib.Common
                     throw new InvalidOperationException("Dequeue from an empty url queue.");
                 }
             }
-
             while (m_CircularLinkedList.Count > 0 && m_CurrentNode.Value.UrlQueue.Count == 0)
             {
                 var temp = m_CurrentNode.NextOrFirst();
                 m_CircularLinkedList.Remove(m_CurrentNode);
                 m_CurrentNode = temp;
             }
-
             if (m_CurrentNode.Value.UrlQueue.Count == 0)
             {
                 m_CurrentNode = null;
@@ -133,9 +133,9 @@ namespace NWebCrawlerLib.Common
             if (m_CurrentNode.Value.UrlQueue.Count == 0)
             {
                 m_Hashtable.Remove(Utility.GetBaseUri(result));
+                //当当前节点URL全部出队列完毕后当前节点指针后移
+                m_CurrentNode = m_CurrentNode.NextOrFirst();
             }
-            m_CurrentNode = m_CurrentNode.NextOrFirst();
-
             return result;
         }
         /// <summary>

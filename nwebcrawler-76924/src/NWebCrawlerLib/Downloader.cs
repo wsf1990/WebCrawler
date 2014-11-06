@@ -132,7 +132,8 @@ namespace NWebCrawlerLib
         /// </summary>
         public void Resume()
         {
-            if (null == Crawler.CrawlerThreads) return;
+            if (null == Crawler.CrawlerThreads)
+                return;
 
             foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
             {
@@ -146,7 +147,8 @@ namespace NWebCrawlerLib
         /// </summary>
         public void Abort()
         {
-            if (null == Crawler.CrawlerThreads) return;
+            if (null == Crawler.CrawlerThreads)
+                return;
 
             foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
             {
