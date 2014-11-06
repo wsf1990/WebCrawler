@@ -30,7 +30,7 @@ namespace NWebCrawlerLib.Common
             }
             try
             {
-                string fileName = url.Replace("/", "_").Replace(":", "").Replace("?", "");
+                string fileName = url;
                 // TODO:对文件名加以判断
                 if (CheckFileName(ref fileName))
                 {
@@ -63,9 +63,26 @@ namespace NWebCrawlerLib.Common
         /// <returns></returns>
         public static bool CheckFileName(ref string name)
         {
-            //1、是否包含非法字符
-            //2、长度是否合法
-            //3、是否是自己需要的类型
+            //1、允许文件或者文件夹名称不得超过255个字符。
+            //2、文件名除了开头之外任何地方都可以使用空格。
+            //3、文件名中不能有下列符号：  :?/\*"<>|
+            //TODO:1、长度是否合法，若超过只取前255个
+            if (name.Length >= 255)
+                name = name.Substring(0, 254);
+            //TODO:2、将非法字符转化为_
+            string replace = "_";
+            name = name.Replace(":", replace)
+                       .Replace("/", replace)
+                       .Replace("?", replace)
+                       .Replace(@"\", replace)
+                       .Replace("*", replace)
+                       .Replace("\"", replace)
+                       .Replace("<", replace)
+                       .Replace(">", replace)
+                       .Replace("|", replace)
+                       .TrimStart();//去除开头无效字符
+            //TODO:3、是否是自己需要下载的类型
+
             return true;
         }
     }

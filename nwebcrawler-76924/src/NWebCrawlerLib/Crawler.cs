@@ -36,7 +36,7 @@ namespace NWebCrawlerLib
         /// <returns></returns>
         public static bool IsUrlContain(string url)
         {
-            return CrawleHistroy.Count(s => s.Url == url) > 0;
+            return CrawleHistroy.Contains(new CrawlHistroyEntry(){Url = url});
         }
     }
 }
