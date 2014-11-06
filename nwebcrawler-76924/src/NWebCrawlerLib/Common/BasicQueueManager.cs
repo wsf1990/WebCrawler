@@ -3,21 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NWebCrawlerLib.Interface;
+using NWebCrawlerLib.Enum;
 
 namespace NWebCrawlerLib.Common
 {
-    /// <summary>
-    /// 支持5种不同的优先级
-    /// </summary>
-    public enum FrontierQueuePriority
-    {
-        Low,
-        BelowNormal,
-        Normal,
-        AboveNormal,
-        High,
-    }
-
     /// <summary>
     /// 简单的URL队列，支持五种优先级。
     /// 存放URL的队列，用五个Queue实现，代表5种不同的优先级

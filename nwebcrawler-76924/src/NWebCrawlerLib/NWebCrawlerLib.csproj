@@ -81,6 +81,7 @@
     <Compile Include="Enum\CrawlerStatusType.cs" />
     <Compile Include="Enum\DownloaderEventType.cs" />
     <Compile Include="Enum\DownloaderStatusType.cs" />
+    <Compile Include="Enum\FrontierQueuePriority.cs" />
     <Compile Include="Enum\LogLevel.cs" />
     <Compile Include="Event\CrawlerStatusChangedEventArgs.cs" />
     <Compile Include="Event\DownloaderStatusChangedEventArgs.cs" />
@@ -100,7 +101,7 @@
     <Compile Include="Common\ResourceCulture.cs" />
     <Compile Include="Common\RoundRobinQueueManager.cs" />
     <Compile Include="Set\Settings.cs" />
-    <Compile Include="Common\UrlQueueManager.cs" />
+    <Compile Include="Common\BasicQueueManager.cs" />
     <Compile Include="Common\Utility.cs" />
   </ItemGroup>
   <ItemGroup>

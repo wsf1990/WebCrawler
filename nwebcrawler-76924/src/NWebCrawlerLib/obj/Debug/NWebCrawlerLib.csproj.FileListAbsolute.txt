@@ -22,3 +22,15 @@ D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\zh-CN\NWebCrawlerLi
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\en-US\NWebCrawlerLib.resources.dll
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.pdb
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.csprojResolveAssemblyReference.cache
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.csprojResolveAssemblyReference.cache
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.Properties.Resource.zh-CN.resources
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.Properties.Resource.en-US.resources
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.csproj.GenerateResource.Cache
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.dll
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\NWebCrawlerLib.pdb
+D:\nwebcrawler\nwebcrawler-76924\bin\NWebCrawlerLib.dll
+D:\nwebcrawler\nwebcrawler-76924\bin\NWebCrawlerLib.pdb
+D:\nwebcrawler\nwebcrawler-76924\bin\zh-CN\NWebCrawlerLib.resources.dll
+D:\nwebcrawler\nwebcrawler-76924\bin\en-US\NWebCrawlerLib.resources.dll
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\zh-CN\NWebCrawlerLib.resources.dll
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawlerLib\obj\Debug\en-US\NWebCrawlerLib.resources.dll
