@@ -91,79 +91,17 @@ namespace NWebCrawlerLib
             foreach (string s in seeds)
                 Crawler.UrlsQueueFrontier.Enqueue(s);
         }
-        /// <summary>
-        /// 启动下载
-        /// </summary>
-        public void Start()
-        {
-            // 如果已经启动则退出
-            if (null != Crawler.CrawlerThreads) 
-                return;
-            Crawler.CrawlerThreads = new Collection<CrawlerThread>();
-
-            for (int i = 0; i < MemCache.ThreadCount; i++)
-            {
-                CrawlerThread crawler = new CrawlerThread(this);
-                crawler.StatusChanged += CrawlerStatusChanged;
-                crawler.Start();
-
-                Crawler.CrawlerThreads.Add(crawler);
-            } 
-            this.Status = DownloaderStatusType.Running;
-        }
-        /// <summary>
-        /// 挂起
-        /// </summary>
-        public void Suspend()
-        {
-            if (null == Crawler.CrawlerThreads) 
-                return;
-
-            foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
-            {
-                crawler.Suspend();
-            }
-
-            this.Status = DownloaderStatusType.Suspended;
-
-        }
-        /// <summary>
-        /// 恢复
-        /// </summary>
-        public void Resume()
-        {
-            if (null == Crawler.CrawlerThreads)
-                return;
-
-            foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
-            {
-                crawler.Resume();
-            }
-
-            this.Status = DownloaderStatusType.Running;
-        }
-        /// <summary>
-        /// 中断
-        /// </summary>
-        public void Abort()
-        {
-            if (null == Crawler.CrawlerThreads)
-                return;
-
-            foreach (CrawlerThread crawler in Crawler.CrawlerThreads)
-            {
-                crawler.Abort();
-            }
-        }
+        
         /// <summary>
         /// 状体变化时 m_dirty 置为true
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CrawlerStatusChanged(object sender, CrawlerStatusChangedEventArgs e)
+        public void CrawlerStatusChanged(object sender, CrawlerStatusChangedEventArgs e)
         {
             this.m_dirty = true;
         }
+
         /// <summary>
         /// 获取下载速度
         /// </summary>
@@ -183,7 +121,6 @@ namespace NWebCrawlerLib
                     else
                         break;
                 }
-
             }
             double speed = 1.0 * totalSize / window / 1024;
             return speed;
