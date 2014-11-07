@@ -199,8 +199,6 @@ namespace NWebCrawlerLib
                 Flush();
 
                 NWebRequest req = new NWebRequest(new Uri(Url), true);
-                // 设置超时以避免耗费不必要的时间等待响应缓慢的服务器或尺寸过大的网页.
-                req.Timeout = MemCache.ConnectionTimeoutMs;
                 NWebResponse response = req.GetResponse();
                 string contentType = MimeType = response.ContentType;
 

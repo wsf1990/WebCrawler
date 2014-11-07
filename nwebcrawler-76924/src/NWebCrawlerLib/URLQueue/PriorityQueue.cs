@@ -6,7 +6,6 @@ using System.Collections;
 
 namespace NWebCrawlerLib.Common
 {
-    // foamliu, 2009/12/27, 优先队列.
     // 把爬虫队列从先入先出换成优先队列, 即可得到带偏好的爬虫 (Preferential Crawler).
     // 带偏好的爬虫给尚未访问的页面链接赋予优先级, 该优先级根据对页面的估计计算而得.
     // 通常的估计会考虑页面的:

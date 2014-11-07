@@ -26,3 +26,17 @@ D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\App.g.cs
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler_Content.g.cs
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler_MarkupCompile.cache
 D:\WebCrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.g.resources
+D:\nwebcrawler\nwebcrawler-76924\bin\NWebCrawler.exe.config
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.exe
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.pdb
+D:\nwebcrawler\nwebcrawler-76924\bin\App.config
+D:\nwebcrawler\nwebcrawler-76924\bin\config.ini
+D:\nwebcrawler\nwebcrawler-76924\bin\NWebCrawler.exe
+D:\nwebcrawler\nwebcrawler-76924\bin\NWebCrawler.pdb
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.csprojResolveAssemblyReference.cache
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\MainWindow.baml
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\MainWindow.g.cs
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\App.g.cs
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler_Content.g.cs
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler_MarkupCompile.cache
+D:\nwebcrawler\nwebcrawler-76924\src\NWebCrawler\obj\Debug\NWebCrawler.g.resources

@@ -21,6 +21,10 @@ namespace NWebCrawlerLib
         public static bool AllowAllMimeTypes;
         public static int ThreadCount;
         public static int ThreadSleepTimeWhenQueueIsEmptyMs;
+        /// <summary>
+        /// 允许下载的文件或者网页后缀
+        /// </summary>
+        public static List<string> AllowExtension;
 
         /// <summary>
         /// 在创建第一个实例或引用任何静态成员之前，将自动调用静态构造函数。
@@ -35,6 +39,7 @@ namespace NWebCrawlerLib
             AllowAllMimeTypes = Settings.AllowAllMimeTypes;
             ThreadCount = Settings.ThreadCount;
             ThreadSleepTimeWhenQueueIsEmptyMs = Settings.ThreadSleepTimeWhenQueueIsEmpty * 1000;
+            AllowExtension = Settings.AllowExtension.Split(',').ToList();
         }
     }
 }

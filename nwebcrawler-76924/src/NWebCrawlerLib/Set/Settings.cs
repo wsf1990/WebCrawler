@@ -180,6 +180,20 @@ namespace NWebCrawlerLib
             }
         }
         /// <summary>
+        /// 允许下载的文件或者网页后缀
+        /// </summary>
+        public static string AllowExtension
+        {
+            get
+            {
+                return GetValue("AllowExtension", "").ToString();
+            }
+            set
+            {
+                SetValue("AllowExtension", value);
+            }
+        }
+        /// <summary>
         /// 设置ini项
         /// </summary>
         /// <param name="keyName"></param>
