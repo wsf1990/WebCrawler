@@ -117,7 +117,7 @@ namespace NWebCrawlerLib.Common
                     throw new InvalidOperationException("Dequeue from an empty url queue.");
                 }
             }
-            while (m_CircularLinkedList.Count > 0 && m_CurrentNode.Value.UrlQueue.Count == 0)
+            while (m_CircularLinkedList.Count > 0 && m_CurrentNode.Value.UrlQueue.Count == 0)//有URL的时候或者循环列表已经为空时即跳出
             {
                 var temp = m_CurrentNode.NextOrFirst();
                 m_CircularLinkedList.Remove(m_CurrentNode);
@@ -133,7 +133,7 @@ namespace NWebCrawlerLib.Common
             if (m_CurrentNode.Value.UrlQueue.Count == 0)
             {
                 m_Hashtable.Remove(Utility.GetBaseUri(result));
-                //当当前节点URL全部出队列完毕后当前节点指针后移
+                //当 当前节点URL全部出队列完毕后当前节点指针后移
                 m_CurrentNode = m_CurrentNode.NextOrFirst();
             }
             return result;
