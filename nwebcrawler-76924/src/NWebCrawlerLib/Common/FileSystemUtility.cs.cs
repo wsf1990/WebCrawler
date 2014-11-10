@@ -83,7 +83,7 @@ namespace NWebCrawlerLib.Common
                        .TrimStart();//去除开头无效字符
             //TODO:3、是否是自己需要下载的类型
             //if (name.EndsWith(".js", StringComparison.CurrentCultureIgnoreCase))
-            return IsAllowExt(name);
+            return true;// IsAllowExt(name);
         }
         /// <summary>
         /// 判断是否是允许下载的类型
