@@ -21,7 +21,6 @@ namespace NWebCrawler
         #region Fields
         private PerformanceCounter m_cpuCounter;
         private PerformanceCounter m_ramCounter;
-        private Downloader m_downloader;
         private DispatcherTimer m_dispatcherTimer;
         #endregion
 
@@ -117,9 +116,7 @@ namespace NWebCrawler
                 Logger.Error(fe.Message);
                 Logger.Error(fe.StackTrace);
             }
-
-            m_downloader = new Downloader();
-            m_downloader.StatusChanged += new DownloaderStatusChangedEventHandler(DownloaderStatusChanged);
+            Crawler.DL.StatusChanged += new DownloaderStatusChangedEventHandler(DownloaderStatusChanged);
 
             Logger.NewLogEvent += new NewLogEventHandler(Logger_NewLogEvent);
             Logger.NewErrorEvent += new NewErrorEventHandler(Logger_NewErrorEvent);
@@ -158,8 +155,8 @@ namespace NWebCrawler
 
         private void miExit_Click(object sender, RoutedEventArgs e)
         {
-            if (m_downloader != null)
-                m_downloader.Abort();
+            if (Crawler.DL != null)
+                Crawler.Abort();
             Application.Current.Shutdown();
         }
 
@@ -175,8 +172,8 @@ namespace NWebCrawler
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            if (m_downloader != null)
-                m_downloader.Abort();
+            if (Crawler.DL != null)
+                Crawler.Abort();
             Application.Current.Shutdown();
             base.OnClosing(e);
         }
@@ -189,10 +186,10 @@ namespace NWebCrawler
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             this.UpdateStatusStrip();
-            if (this.m_downloader.Dirty)
+            if (Crawler.DL.Dirty)
             {
                 this.UpdateDataGrid();
-                this.m_downloader.Dirty = false;
+                Crawler.DL.Dirty = false;
             }
         }
 
@@ -203,17 +200,17 @@ namespace NWebCrawler
 
         private void buttonResume_Click(object sender, RoutedEventArgs e)
         {
-            m_downloader.Resume();
+            Crawler.Resume();
         }
 
         private void buttonSuspend_Click(object sender, RoutedEventArgs e)
         {
-            m_downloader.Suspend();
+            Crawler.Suspend();
         }
 
         private void buttonStop_Click(object sender, RoutedEventArgs e)
         {
-            m_downloader.Abort();
+            Crawler.Abort();
 
             buttonGo.IsEnabled = true;
         }
@@ -225,14 +222,17 @@ namespace NWebCrawler
 
         private void buttonGo_Click(object sender, RoutedEventArgs e)
         {
-            m_downloader.InitSeeds(new string[] { txtSeed.Text });
-            m_downloader.Start();
+            Crawler.DL.InitSeeds(new string[] { txtSeed.Text });
+            Crawler.Start();
         }
-
         #endregion
 
         #region Helpers
-
+        /// <summary>
+        /// 给数字加,分隔符
+        /// </summary>
+        /// <param name="nNum"></param>
+        /// <returns></returns>
         private string Commas(int nNum)
         {
             string str = nNum.ToString();
@@ -255,7 +255,7 @@ namespace NWebCrawler
 
         private void UpdateDataGrid()
         {
-            if (null == m_downloader || null == Crawler.CrawlerThreads) 
+            if (null == Crawler.DL || null == Crawler.CrawlerThreads) 
                 return;
 
             Application.Current.Dispatcher.Invoke(
@@ -302,11 +302,11 @@ namespace NWebCrawler
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<string>((v) => this.statusBarPanelSpeed.Text = v),
-                string.Format("Speed: {0:0.00}KB/sec", m_downloader.GetDownloadSpeed()));
+                string.Format("Speed: {0:0.00}KB/sec", Crawler.DL.GetDownloadSpeed()));
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<string>((v) => this.statusBarPanelByteCount.Text = v),
-                string.Format("Total size: {0:0.00}MB", 1.0 * m_downloader.TotalSize / 1024 / 1024));
+                string.Format("Total size: {0:0.00}MB", 1.0 * Crawler.DL.TotalSize / 1024 / 1024));
         }
 
         private void UpdateToolStrip()
@@ -314,17 +314,17 @@ namespace NWebCrawler
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<bool>((b) => this.buttonResume.IsEnabled = b),
-                (m_downloader.Status == DownloaderStatusType.Suspended));
+                (Crawler.DL.Status == DownloaderStatusType.Suspended));
 
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<bool>((b) => this.buttonGo.IsEnabled = b),
-                (m_downloader.Status == DownloaderStatusType.NotStarted));
+                (Crawler.DL.Status == DownloaderStatusType.NotStarted));
 
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<bool>((b) => this.buttonSuspend.IsEnabled = this.buttonStop.IsEnabled = b),
-                (m_downloader.Status == DownloaderStatusType.Running));
+                (Crawler.DL.Status == DownloaderStatusType.Running));
         }
 
         #endregion
