@@ -200,7 +200,7 @@ namespace NWebCrawlerLib
 
                 NWebRequest req = new NWebRequest(new Uri(Url), true);
                 NWebResponse response = req.GetResponse();
-                string contentType = MimeType = response.ContentType;
+                string contentType = MimeType = response.ContentType.ToLower();
 
                 if (contentType != "text/html" && !MemCache.AllowAllMimeTypes && !MemCache.AllowedFileTypes.Contains(contentType))
                     return;
