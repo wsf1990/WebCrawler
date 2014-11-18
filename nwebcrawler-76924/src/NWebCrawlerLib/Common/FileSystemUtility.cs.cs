@@ -14,6 +14,10 @@ namespace NWebCrawlerLib.Common
         /// </summary>
         private static string fileFolder = MemCache.FileSystemFolder;
 
+        /// <summary>
+        /// 下载文件
+        /// </summary>
+        /// <param name="url"></param>
         public static void StoreWebFile(string url)
         {
             string filePath = null;
@@ -83,7 +87,7 @@ namespace NWebCrawlerLib.Common
         }
 
         /// <summary>
-        /// 对文件名加以判断
+        /// 对文件名加以判断并返回正确文件名
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -109,24 +113,24 @@ namespace NWebCrawlerLib.Common
                        .TrimStart();//去除开头无效字符
             //TODO:3、是否是自己需要下载的类型
             //if (name.EndsWith(".js", StringComparison.CurrentCultureIgnoreCase))
-            return true;// IsAllowExt(name);
+            return MemCache.IsAllowedExtensions(name);// true;// IsAllowExt(name);
         }
-        /// <summary>
-        /// 判断是否是允许下载的类型
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        static bool IsAllowExt(string name)
-        {
-            bool isAllow = false;
-            MemCache.AllowExtension.ForEach(s => 
-            {
-                if(name.EndsWith(s, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    isAllow = true;
-                }
-            });
-            return isAllow;
-        }
+        ///// <summary>
+        ///// 判断是否是允许下载的类型
+        ///// </summary>
+        ///// <param name="name"></param>
+        ///// <returns></returns>
+        //static bool IsAllowExt(string name)
+        //{
+        //    bool isAllow = false;
+        //    MemCache.AllowedExtensions.ForEach(s => 
+        //    {
+        //        if(name.EndsWith(s, StringComparison.CurrentCultureIgnoreCase))
+        //        {
+        //            isAllow = true;
+        //        }
+        //    });
+        //    return isAllow;
+        //}
     }
 }

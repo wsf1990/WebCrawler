@@ -201,14 +201,14 @@ namespace NWebCrawlerLib
                 var response = req.GetResponse();
                 string contentType = MimeType = response.ContentType.ToLower();
                 //此处网页和需要下载的响应头应放其过去，其余阻止
-                if (!contentType.Contains("text/html") && !MemCache.AllowAllMimeTypes && !MemCache.AllowedFileTypes.Contains(contentType))
-                    return;
+                //if (!contentType.Contains("text/html") && !MemCache.AllowAllMimeTypes && !MemCache.AllowedFileTypes.Contains(contentType))
+                //    return;
                 //TODO:根据contentType选择进行网页URL解析或者直接下载
                 if (contentType.Contains("text/html"))//网页解析
                 {
                     ParseURL(response);
                 }
-                else if(contentType.Contains("application/octet-stream"))//直接下载
+                else if(MemCache.IsAllowedFileTypes(contentType))//直接下载
                 {
                     FileSystemUtility.StoreWebFile(Url);
                 }
