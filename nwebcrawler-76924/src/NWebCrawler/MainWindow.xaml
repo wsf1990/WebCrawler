@@ -37,7 +37,7 @@
                             <Image Source="/NWebCrawler;component/Images/set-icon.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <TextBox Name="txtSeed" Width="200" Text="http://www.godeyes.cn/"></TextBox>
+                    <TextBox Name="txtSeed" Width="200" Text="http://www.godeyes.cn/html/2009/02/02/download_3308.html"></TextBox>
                     <MenuItem Name="buttonGo" Click="buttonGo_Click" Height="36" Width="36">
                         <MenuItem.Icon>
                             <Image Source="/NWebCrawler;component/Images/start-icon.png" />

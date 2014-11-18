@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 
 namespace NWebCrawlerLib.Common
 {
@@ -12,6 +13,31 @@ namespace NWebCrawlerLib.Common
         /// 文件保存路径
         /// </summary>
         private static string fileFolder = MemCache.FileSystemFolder;
+
+        public static void StoreWebFile(string url)
+        {
+            string filePath = null;
+            if (!Directory.Exists(fileFolder))
+            {
+                Directory.CreateDirectory(fileFolder);
+            }
+            try
+            {
+                string fileName = url;
+                // TODO:对文件名加以判断
+                if (CheckFileName(ref fileName))
+                {
+                    filePath = Path.Combine(fileFolder, fileName);
+                    var wc = new WebClient();
+                    wc.DownloadFile(url, filePath);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message + e.StackTrace);
+                Logger.Error(filePath);
+            }
+        }
 
         /// <summary>
         /// 下载网络文件
@@ -36,7 +62,7 @@ namespace NWebCrawlerLib.Common
                 {
                     filePath = Path.Combine(fileFolder, fileName);
                     fs = new FileStream(filePath, FileMode.Create);
-
+                    //此处若responseStream有问题，可以使用url重新下载之
                     fs.Write(resource, 0, resource.Length);
                     fs.Flush();
                 }
@@ -83,7 +109,7 @@ namespace NWebCrawlerLib.Common
                        .TrimStart();//去除开头无效字符
             //TODO:3、是否是自己需要下载的类型
             //if (name.EndsWith(".js", StringComparison.CurrentCultureIgnoreCase))
-            return IsAllowExt(name);
+            return true;// IsAllowExt(name);
         }
         /// <summary>
         /// 判断是否是允许下载的类型
