@@ -8,7 +8,7 @@ namespace NWebCrawlerLib
     using NWebCrawlerLib.Common;
 
     /// <summary>
-    /// foamliu, 2009/12/27, 页面解析.
+    /// 页面解析.
     /// HTML代码不需要像程序语言那样经过严格的语法检查, 而且有为数众多的非专业网页编辑人员的存在, 
     /// 因此爬虫的页面解析必须足够宽容, 不能因为小小错误而把许多重要的网页丢弃.
     /// 
@@ -29,7 +29,7 @@ namespace NWebCrawlerLib
         /// <returns></returns>
         public static string[] ExtractLinks(string baseUri, string html)
         {
-            Collection<string> urls = new Collection<string>();
+            var urls = new Collection<string>();
 
             try
             {
@@ -38,7 +38,7 @@ namespace NWebCrawlerLib
                 
                 foreach (Match match in matches)
                 {
-                    strRef = match.Value.Substring(match.Value.IndexOf('=') + 1).Trim('"', '\'', '#', ' ', '>');
+                    strRef = match.Value.Substring(match.Value.IndexOf('=') + 1).Trim('"', '\'', '#', ' ', '>', '{', '}');
                     try
                     {
                         if (IsGoodUri(strRef))

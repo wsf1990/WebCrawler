@@ -55,7 +55,7 @@ namespace NWebCrawlerLib
 
             for (int i = 0; i < MemCache.ThreadCount; i++)
             {
-                CrawlerThread crawler = new CrawlerThread(DL);
+                var crawler = new CrawlerThread(DL);
                 crawler.StatusChanged += DL.CrawlerStatusChanged;
                 crawler.Start();
 
