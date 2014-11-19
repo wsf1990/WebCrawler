@@ -19,6 +19,8 @@ namespace NWebCrawlerLib.Common
         public bool KeepAlive;
         public NWebResponse response;
 
+        #region ctor
+
         public NWebRequest(Uri uri, bool bKeepAlive)
         {
             Headers = new WebHeaderCollection();
@@ -32,6 +34,20 @@ namespace NWebCrawlerLib.Common
             // 设置超时以避免耗费不必要的时间等待响应缓慢的服务器或尺寸过大的网页.
             Timeout = MemCache.ConnectionTimeoutMs;
         }
+
+        public NWebRequest(string url, bool bKeepAlive)
+            : this(new Uri(url), bKeepAlive)
+        {
+
+        }
+
+        public NWebRequest(string url)
+            : this(new Uri(url), true)
+        {
+
+        } 
+        #endregion
+
         /// <summary>
         /// 返回响应
         /// </summary>

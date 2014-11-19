@@ -152,7 +152,7 @@ namespace NWebCrawlerLib
         }
         #endregion
 
-        #region static method
+        #region Work
         private void DoWork()
         {
             while (true)
@@ -197,7 +197,7 @@ namespace NWebCrawlerLib
                 // 获取页面.
                 Status = CrawlerStatusType.Fetch;
                 Flush();
-                var req = new NWebRequest(new Uri(Url), true);
+                var req = new NWebRequest(Url);
                 var response = req.GetResponse();
                 string contentType = MimeType = response.ContentType.ToLower();
                 //此处网页和需要下载的响应头应放其过去，其余阻止
@@ -208,10 +208,85 @@ namespace NWebCrawlerLib
                 {
                     ParseURL(response);
                 }
-                else if(MemCache.IsAllowedFileTypes(contentType))//直接下载
+                else if (MemCache.IsAllowedFileTypes(contentType))//直接下载
                 {
-                    FileSystemUtility.StoreWebFile(Url);
+                    DownloadURL();
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
+        } 
+        #endregion
+
+        #region 对网页的处理
+        /// <summary>
+        /// 网页解析
+        /// </summary>
+        /// <param name="response"></param>
+        private void ParseURL(NWebResponse response)
+        {
+            byte[] buffer = response.GetResponseStream();
+            response.Close();
+
+            // 保存页面(到网页库).
+            Status = CrawlerStatusType.Save;
+            Flush();
+
+            string html = Encoding.UTF8.GetString(buffer);
+            string baseUri = Utility.GetBaseUri(Url);
+            string[] links = Parser.ExtractLinks(baseUri, html);//解析网页中链接
+
+            //if (Settings.DataStoreMode == "1")
+            //{
+            //    //SQLiteUtility.InsertToRepo(PageRank.calcPageRank(url),url, 0, "", buffer, DateTime.Now, DateTime.Now, 0, "", Environment.MachineName,links.Length);
+            //}
+            //else
+            //{
+            //    FileSystemUtility.StoreWebFile(Url, buffer);
+            //}
+
+            Crawler.CrawleHistroy.Add(new CrawlHistroyEntry() { Timestamp = DateTime.UtcNow, Url = Url, Size = response.ContentLength });
+            lock (m_downloader.TotalSizelock)
+            {
+                m_downloader.TotalSize += response.ContentLength;
+            }
+
+            // 提取URL并加入队列.
+            if (Crawler.UrlsQueueFrontier.Count < 1000)
+            {
+                Status = CrawlerStatusType.Parse;
+                Flush();
+
+                foreach (string link in links)
+                {
+                    // 避免爬虫陷阱
+                    if (link.Length > 256)
+                        continue;
+                    // 避免出现环
+                    if (Crawler.IsUrlContain(link))
+                        continue;
+                    // 加入队列
+                    Crawler.UrlsQueueFrontier.Enqueue(link);
+                }
+            }
+
+            Console.WriteLine("[{1}] Url: {0}", Url, Crawler.CrawleHistroy.Count);
+
+            Url = string.Empty;
+            Status = CrawlerStatusType.Idle;
+            MimeType = string.Empty;
+            Flush();
+        }
+        /// <summary>
+        /// 下载URL内容
+        /// </summary>
+        private void DownloadURL()
+        {
+            try
+            {
+                FileSystemUtility.StoreWebFile(Url);
             }
             #region IOException
             catch (IOException ioEx)
@@ -246,7 +321,7 @@ namespace NWebCrawlerLib
                         }
                     }
                 }
-            } 
+            }
             #endregion
             catch (NotSupportedException /*nsEx*/)
             {
@@ -254,71 +329,10 @@ namespace NWebCrawlerLib
                 // 束手无策 TODO: 想个办法
                 //Logger.Error(nsEx.Message);
             }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message);
-            }
-        }
+        } 
+        #endregion
 
-        /// <summary>
-        /// 网页解析
-        /// </summary>
-        /// <param name="response"></param>
-        private void ParseURL(NWebResponse response)
-        {
-            byte[] buffer = response.GetResponseStream();
-                    response.Close();
-
-                    // 保存页面(到网页库).
-                    Status = CrawlerStatusType.Save;
-                    Flush();
-
-                    string html = Encoding.UTF8.GetString(buffer);
-                    string baseUri = Utility.GetBaseUri(Url);
-                    string[] links = Parser.ExtractLinks(baseUri, html);//解析网页中链接
-
-                    //if (Settings.DataStoreMode == "1")
-                    //{
-                    //    //SQLiteUtility.InsertToRepo(PageRank.calcPageRank(url),url, 0, "", buffer, DateTime.Now, DateTime.Now, 0, "", Environment.MachineName,links.Length);
-                    //}
-                    //else
-                    //{
-                    //    FileSystemUtility.StoreWebFile(Url, buffer);
-                    //}
-
-                    Crawler.CrawleHistroy.Add(new CrawlHistroyEntry() { Timestamp = DateTime.UtcNow, Url = Url, Size = response.ContentLength });
-                    lock (m_downloader.TotalSizelock)
-                    {
-                        m_downloader.TotalSize += response.ContentLength;
-                    }
-
-                    // 提取URL并加入队列.
-                    if (Crawler.UrlsQueueFrontier.Count < 1000)
-                    {
-                        Status = CrawlerStatusType.Parse;
-                        Flush();
-
-                        foreach (string link in links)
-                        {
-                            // 避免爬虫陷阱
-                            if (link.Length > 256)
-                                continue;
-                            // 避免出现环
-                            if (Crawler.IsUrlContain(link))
-                                continue;
-                            // 加入队列
-                            Crawler.UrlsQueueFrontier.Enqueue(link);
-                        }
-                    }
-
-                    Console.WriteLine("[{1}] Url: {0}", Url, Crawler.CrawleHistroy.Count);
-
-                    Url = string.Empty;
-                    Status = CrawlerStatusType.Idle;
-                    MimeType = string.Empty;
-                    Flush();
-        }
-
+        #region static method
         /// <summary>
         /// 考虑：会不会占用太多内存？
         /// </summary>
