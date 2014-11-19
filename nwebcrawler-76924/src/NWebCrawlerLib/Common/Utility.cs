@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
@@ -160,6 +161,54 @@ namespace NWebCrawlerLib
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        /// <summary>
+        /// 从流中获取字符串
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public static string GetStringFromResponse(WebResponse response)
+        {
+            using (var sw = new StreamReader(response.GetResponseStream()))
+            {
+                return sw.ReadToEnd();
+            }
+        }
+
+        /// <summary>
+        /// Save a binary file to disk.
+        /// </summary>
+        /// <param name="response">The response used to save the file</param>
+        // 将二进制文件保存到磁盘
+        public static bool SaveBinaryFile(WebResponse response, string FileName)
+        {
+            bool Value = true;
+            byte[] buffer = new byte[1024 * 1024];
+            try
+            {
+                if (File.Exists(FileName))
+                    File.Delete(FileName);
+                using (Stream outStream = System.IO.File.Create(FileName))
+                {
+                    using (Stream inStream = response.GetResponseStream())
+                    {
+                        int l;
+                        do
+                        {
+                            l = inStream.Read(buffer, 0, buffer.Length);
+                            if (l > 0)
+                                outStream.Write(buffer, 0, l);
+                        }
+                        while (l > 0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Value = false;
+            }
+            return Value;
+        } 
 
     }
 }

@@ -16,7 +16,7 @@ namespace NWebCrawlerLib.Common
         /// <summary>
         /// url作为键值，LinkedListNode作为值
         /// 为每个host创建一个键值对
-        /// 值为一个LinkedListNode<DomainUrlBucket>其中DomainUrlBucket的队列里存储了本host下的所有链接
+        /// 值为一个<!--LinkedListNode<DomainUrlBucket>-->其中DomainUrlBucket的队列里存储了本host下的所有链接
         /// </summary>
         private Dictionary<string, LinkedListNode<DomainUrlBucket>> m_Hashtable = new Dictionary<string, LinkedListNode<DomainUrlBucket>>();
         /// <summary>
@@ -147,6 +147,12 @@ namespace NWebCrawlerLib.Common
             m_CircularLinkedList.Clear();
             m_CurrentNode = null;
             m_Count = 0;
+        }
+
+
+        public bool IsContain(string url)
+        {
+            return this.m_CircularLinkedList.Count(s=>s.UrlQueue.Contains(url)) > 0;
         }
     }
 }

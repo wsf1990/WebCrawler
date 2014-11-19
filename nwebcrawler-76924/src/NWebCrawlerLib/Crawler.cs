@@ -28,6 +28,11 @@ namespace NWebCrawlerLib
         public static IList<CrawlHistroyEntry> CrawleHistroy { get; set; }
 
         /// <summary>
+        /// 下载的文件数量
+        /// </summary>
+        public static int FileCount { get; set; }
+
+        /// <summary>
         /// URL队列
         /// 尚未访问的URL列表, 使用先进先出 （First-in-first-out, FIFO) 的队列
         /// 对应的爬虫就是宽度优先爬虫 (Breadth-first crawler).
@@ -35,13 +40,13 @@ namespace NWebCrawlerLib
         public static IQueueManager UrlsQueueFrontier { get; set; }
 
         /// <summary>
-        /// 判断是否已经爬取过
+        /// 判断是否已经爬取过或者已经加入到URL队列当中
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
         public static bool IsUrlContain(string url)
         {
-            return CrawleHistroy.Contains(new CrawlHistroyEntry(){Url = url});
+            return CrawleHistroy.Contains(new CrawlHistroyEntry(){Url = url}) || UrlsQueueFrontier.IsContain(url);
         }
         /// <summary>
         /// 启动工作

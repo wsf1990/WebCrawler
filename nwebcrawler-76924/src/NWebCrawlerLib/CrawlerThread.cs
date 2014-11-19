@@ -1,4 +1,6 @@
-﻿using NWebCrawlerLib.Common;
+﻿using System.Net;
+using NWebCrawlerLib.Common;
+using NWebCrawlerLib.Connect;
 using NWebCrawlerLib.Enum;
 using NWebCrawlerLib.Event;
 using NWebCrawlerLib.Interface;
@@ -197,12 +199,23 @@ namespace NWebCrawlerLib
                 // 获取页面.
                 Status = CrawlerStatusType.Fetch;
                 Flush();
-                var req = new NWebRequest(Url);
-                var response = req.GetResponse();
+                //var req = new NWebRequest(Url);
+                var req = new NRequest(Url);
+                var response = req.Response;
                 string contentType = MimeType = response.ContentType.ToLower();
+
+                Crawler.CrawleHistroy.Add(new CrawlHistroyEntry()
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Url = Url,
+                    Size = response.ContentLength
+                });
+
                 //此处网页和需要下载的响应头应放其过去，其余阻止
                 //if (!contentType.Contains("text/html") && !MemCache.AllowAllMimeTypes && !MemCache.AllowedFileTypes.Contains(contentType))
                 //    return;
+                if(string.IsNullOrWhiteSpace(contentType))
+                    return;
                 //TODO:根据contentType选择进行网页URL解析或者直接下载
                 if (contentType.Contains("text/html"))//网页解析
                 {
@@ -210,7 +223,7 @@ namespace NWebCrawlerLib
                 }
                 else if (MemCache.IsAllowedFileTypes(contentType))//直接下载
                 {
-                    DownloadURL();
+                    DownloadURL(response);
                 }
             }
             catch (Exception ex)
@@ -225,34 +238,15 @@ namespace NWebCrawlerLib
         /// 网页解析
         /// </summary>
         /// <param name="response"></param>
-        private void ParseURL(NWebResponse response)
+        private void ParseURL(WebResponse response)
         {
-            byte[] buffer = response.GetResponseStream();
-            response.Close();
-
-            // 保存页面(到网页库).
-            Status = CrawlerStatusType.Save;
+            string html = Utility.GetStringFromResponse(response);
+            // 解析网页中URL.
+            Status = CrawlerStatusType.GetUrl;
             Flush();
 
-            string html = Encoding.UTF8.GetString(buffer);
             string baseUri = Utility.GetBaseUri(Url);
             string[] links = Parser.ExtractLinks(baseUri, html);//解析网页中链接
-
-            //if (Settings.DataStoreMode == "1")
-            //{
-            //    //SQLiteUtility.InsertToRepo(PageRank.calcPageRank(url),url, 0, "", buffer, DateTime.Now, DateTime.Now, 0, "", Environment.MachineName,links.Length);
-            //}
-            //else
-            //{
-            //    FileSystemUtility.StoreWebFile(Url, buffer);
-            //}
-
-            Crawler.CrawleHistroy.Add(new CrawlHistroyEntry() { Timestamp = DateTime.UtcNow, Url = Url, Size = response.ContentLength });
-            lock (m_downloader.TotalSizelock)
-            {
-                m_downloader.TotalSize += response.ContentLength;
-            }
-
             // 提取URL并加入队列.
             if (Crawler.UrlsQueueFrontier.Count < 1000)
             {
@@ -282,11 +276,18 @@ namespace NWebCrawlerLib
         /// <summary>
         /// 下载URL内容
         /// </summary>
-        private void DownloadURL()
+        private void DownloadURL(WebResponse response)
         {
             try
             {
-                FileSystemUtility.StoreWebFile(Url);
+                Status = CrawlerStatusType.Save;
+                Flush();
+                FileSystemUtility.StoreWebFile(Url, response);
+                lock (m_downloader.TotalSizelock)
+                {
+                    m_downloader.TotalSize += response.ContentLength;
+                    Crawler.FileCount++;
+                }
             }
             #region IOException
             catch (IOException ioEx)

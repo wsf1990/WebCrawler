@@ -14,6 +14,7 @@ namespace NWebCrawlerLib.Enum
         Idle,
         Fetch,  // FetchWebContent
         Parse,  // ParseWebPage
+        GetUrl, // 解析网页中的URL
         Save,   // SaveToRepository
     }
 }

@@ -11,5 +11,11 @@ namespace NWebCrawlerLib.Interface
         void Enqueue(string url);
         string Dequeue();
         void Clear();
+        /// <summary>
+        /// 判断url是否已经加入队列
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        bool IsContain(string url);
     }
 }

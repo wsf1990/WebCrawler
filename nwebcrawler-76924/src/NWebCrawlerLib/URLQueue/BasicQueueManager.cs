@@ -142,5 +142,12 @@ namespace NWebCrawlerLib.Common
                 return queue.Dequeue();
             }
         }
-    }
+
+
+        public bool IsContain(string url)
+        {
+            return lowQueue.Contains(url) || belowQueue.Contains(url)
+                   || normalQueue.Contains(url) || aboveQueue.Contains(url) || highQueue.Contains(url);
+        }                                    
+    }                                         
 }

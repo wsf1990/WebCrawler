@@ -18,7 +18,7 @@ namespace NWebCrawlerLib.Common
         /// 下载文件
         /// </summary>
         /// <param name="url"></param>
-        public static void StoreWebFile(string url)
+        public static void StoreWebFile(string url, WebResponse response)
         {
             string filePath = null;
             if (!Directory.Exists(fileFolder))
@@ -32,8 +32,7 @@ namespace NWebCrawlerLib.Common
                 if (CheckFileName(ref fileName))
                 {
                     filePath = Path.Combine(fileFolder, fileName);
-                    var wc = new WebClient();
-                    wc.DownloadFile(url, filePath);
+                    Utility.SaveBinaryFile(response, filePath);
                 }
             }
             catch (Exception e)

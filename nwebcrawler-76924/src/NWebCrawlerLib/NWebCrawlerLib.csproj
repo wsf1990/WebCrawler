@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connect\NRequest.cs" />
     <Compile Include="URLQueue\CircularLinkedList.cs" />
     <Compile Include="URLQueue\DomainUrlBucket.cs" />
     <Compile Include="Common\FileSystemUtility.cs.cs" />

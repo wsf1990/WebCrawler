@@ -298,7 +298,7 @@ namespace NWebCrawler
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<string>((v) => this.statusBarPanelFiles.Text = v),
-                string.Format("Files: {0}", Crawler.CrawleHistroy.Count.ToString()));
+                string.Format("Files: {0}", Crawler.FileCount.ToString()));
             Application.Current.Dispatcher.Invoke(
                 DispatcherPriority.Background,
                 new Action<string>((v) => this.statusBarPanelSpeed.Text = v),
