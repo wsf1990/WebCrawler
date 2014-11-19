@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NWebCrawlerLib;
 using NWebCrawlerLib.Common;
 using NWebCrawlerLib.Interface;
+using NWebCrawlerLib.URLQueue;
 
 namespace NWebCrawler.UnitTest
 {

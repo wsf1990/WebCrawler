@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using NWebCrawlerLib.Common;
 using NWebCrawlerLib.Interface;
-using System.Collections;
 using System.Threading;
 
-namespace NWebCrawlerLib.Common
+namespace NWebCrawlerLib.URLQueue
 {
     /// <summary>
     /// 使用LinkedList实现URL列表类
@@ -149,7 +148,11 @@ namespace NWebCrawlerLib.Common
             m_Count = 0;
         }
 
-
+        /// <summary>
+        /// 是否已经入队
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public bool IsContain(string url)
         {
             return this.m_CircularLinkedList.Count(s=>s.UrlQueue.Contains(url)) > 0;

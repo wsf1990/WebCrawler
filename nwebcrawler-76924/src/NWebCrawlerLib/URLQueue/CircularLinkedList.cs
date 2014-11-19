@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace NWebCrawlerLib.Common
+namespace NWebCrawlerLib.URLQueue
 {
     /// <summary>
     /// 循环列表扩展方法类

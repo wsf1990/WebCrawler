@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using NWebCrawlerLib.Interface;
 using NWebCrawlerLib.Enum;
 
-namespace NWebCrawlerLib.Common
+namespace NWebCrawlerLib.URLQueue
 {
     /// <summary>
     /// 简单的URL队列，支持五种优先级。

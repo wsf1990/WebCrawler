@@ -6,6 +6,7 @@ using NWebCrawlerLib.Common;
 using NWebCrawlerLib.Interface;
 using NWebCrawlerLib.Event;
 using NWebCrawlerLib.Enum;
+using NWebCrawlerLib.URLQueue;
 
 namespace NWebCrawlerLib
 {
